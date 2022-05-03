@@ -1,0 +1,11 @@
+if(LIB_GLAD)
+	message(FATAL_ERROR "GLEW is not compatible with GLAD.")
+endif()
+
+add_subdirectory(lib/glew/build/cmake)
+add_compile_definitions(GLEW_STATIC)
+include_directories(lib/glew/include)
+
+if(WIN32)
+	set_target_properties(glew PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+endif()

@@ -1,0 +1,43 @@
+find_package(Git)
+
+if(GIT_FOUND)
+	if(NOT EXISTS "${PROJECT_SOURCE_DIR}/.git")
+		message(STATUS "Initializing git repository...")
+		execute_process(COMMAND ${GIT_EXECUTABLE} init WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} RESULT_VARIABLE GIT_INIT_RESULT)
+
+		if(NOT GIT_INIT_RESULT EQUAL "0")
+			message(FATAL_ERROR "Unable to initialize git repository.")
+		endif()
+	endif()
+
+	message(STATUS "Retrieving git submodules...")
+
+	set(SUBMODULES #[[libPaths]])
+	set(REPOSITORIES #[[libRepos]])
+	set(RELEASES #[[libReleases]])
+
+	foreach(UPD_SUB IN LISTS SUBMODULES)
+		execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive --remote -- ${UPD_SUB} WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} RESULT_VARIABLE GIT_SUBMOD_RESULT)
+
+		list(FIND SUBMODULES ${UPD_SUB} SUB_INDEX)
+    list(GET REPOSITORIES ${SUB_INDEX} SUB_URL)
+    list(GET RELEASES ${SUB_INDEX} SUB_RELEASE)
+
+		if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+			execute_process(COMMAND ${GIT_EXECUTABLE} submodule add ${SUB_URL} ${UPD_SUB} WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+			execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive -- ${UPD_SUB} WORKING_DIRECTORY ${PROJECT_SOURCE_DIR} RESULT_VARIABLE GIT_SUBMOD_RESULT)
+
+			if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+				message(FATAL_ERROR "Unable to retrieve submodule ${UPD_SUB}")
+			endif()
+		endif()
+
+		execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${SUB_RELEASE} WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/${UPD_SUB} RESULT_VARIABLE GIT_SUBMOD_RESULT)
+
+		if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+			message(SEND_ERROR "Unable to checkout branch ${SUB_RELEASE} of repository ${UPD_SUB}")
+		endif()
+	endforeach()
+else()
+	message(FATAL_ERROR "Git not found.")
+endif()

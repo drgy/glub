@@ -1,0 +1,47 @@
+POST http://localhost:3333/compatible
+Content-Type: application/json
+
+[
+	{
+		"name": "glfw",
+      "version": "3.3.7"
+	}
+]
+
+###
+POST http://localhost:3333/cpp
+Content-Type: application/json
+
+{
+	"name": "glub",
+	"version": "1.0.0",
+	"description": "glub test",
+	"resPath": "res/",
+	"srcPath": "src/",
+	"libraries": [
+		{
+            "name": "glfw",
+            "version": "3.0.4"
+		}
+	]
+}
+
+###
+POST http://localhost:3333/cmake
+Content-Type: application/json
+
+{
+	"name": "glub",
+	"version": "1.0.0",
+	"description": "glub test",
+	"resPath": "res/",
+	"srcPath": "src/",
+	"libraries": [
+			{
+				"name": "glfw",
+				"version": "3.2.1"
+			}
+	]
+}
+
+###

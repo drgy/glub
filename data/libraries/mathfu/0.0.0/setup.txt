@@ -1,0 +1,2 @@
+include_directories(lib/mathfu/include)
+include_directories(lib/mathfu/dependencies/vectorial/include)

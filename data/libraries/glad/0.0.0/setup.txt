@@ -1,0 +1,10 @@
+if(LIB_GLEW)
+	message(FATAL_ERROR "GLAD is not compatible with GLEW.")
+endif()
+
+if(NOT (LIB_GLFW OR LIB_SDL))
+	message(FATAL_ERROR "GLAD requires GLFW or SDL.")
+endif()
+
+add_subdirectory(lib/glad)
+include_directories(${CMAKE_BINARY_DIR}lib/glad/include)

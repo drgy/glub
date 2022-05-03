@@ -1,0 +1,5 @@
+if(UNIX)
+	add_executable(#[[name]] ${SRC_FILES} #[[exec]])
+elseif(WIN32)
+	add_executable(#[[name]] WIN32 ${SRC_FILES} #[[exec]])
+endif()

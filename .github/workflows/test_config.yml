@@ -1,0 +1,51 @@
+on:
+  workflow_dispatch:
+    inputs:
+      libraries:
+        type: string
+
+jobs:
+  ubuntu-test:
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.success.outputs.out }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: sudo apt-get install libgl1-mesa-dev xorg-dev
+      - run: node tests/generate_project.js "${{github.event.inputs.libraries}}"
+      - run: cmake ../
+        working-directory: project/build
+      - run: cmake --build .
+        working-directory: project/build
+      - id: success
+        run: echo "::set-output name=out::ubuntu"
+  windows-test:
+    runs-on: windows-latest
+    outputs:
+      result: ${{ steps.success.outputs.out }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: node tests/generate_project.js "${{github.event.inputs.libraries}}"
+      - run: cmake ../
+        working-directory: project/build
+      - run: cmake --build .
+        working-directory: project/build
+      - run: ./project/build/Debug/glub.exe
+      - id: success
+        run: echo "::set-output name=out::windows"
+  write-results:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [ ubuntu-test, windows-test ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: node tests/write_result.js "${{github.event.inputs.libraries}}" ${{needs.ubuntu-test.outputs.result}} ${{needs.windows-test.outputs.result}}
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Update compatibility"
+          git push

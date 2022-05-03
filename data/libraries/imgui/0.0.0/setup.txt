@@ -1,0 +1,15 @@
+if(NOT (LIB_GLEW OR LIB_GLAD))
+	message(FATAL_ERROR "Imgui requires GLEW or GLAD.")
+endif()
+
+if(NOT (LIB_GLFW OR LIB_SDL))
+	message(FATAL_ERROR "Imgui requires GLFW or SDL.")
+endif()
+
+include_directories(lib/imgui lib/imgui/backends)
+
+if(LIB_GLFW)
+	file(GLOB IMGUI_FILES "./lib/imgui/*.h" "./lib/imgui/*.cpp" "./lib/imgui/backends/*glfw*" "./lib/imgui/backends/*opengl3*")
+elseif(LIB_SDL)
+	file(GLOB IMGUI_FILES "./lib/imgui/*.h" "./lib/imgui/*.cpp" "./lib/imgui/backends/*sdl*" "./lib/imgui/backends/*opengl3*")
+endif()

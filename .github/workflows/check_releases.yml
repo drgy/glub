@@ -1,0 +1,9 @@
+on:
+  schedule:
+    - cron: '40 9 * * 6'
+
+jobs:
+  check_releases:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Checking releases..."

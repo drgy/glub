@@ -1,0 +1,1 @@
+target_link_libraries(#[[name]] glad ${CMAKE_DL_LIBS})

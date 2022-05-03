@@ -1,0 +1,1 @@
+add_executable(#[[name]] ${SRC_FILES} #[[exec]])
