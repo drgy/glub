@@ -38,7 +38,7 @@ for (let i = 0; i < libraries.length; i++) {
 			}
 
 			if (latestRelease === '0.0.0' || !Object.keys(compatibility).some(hash => hash.match(new RegExp(`^(0\\|){${i}}${latestRelease.replace(/\./g, '\\.')}\\|(0\\|)*$`)))) {
-				output.push([{ name: libraries[i], version: latestRelease }]);
+				output.push(JSON.stringify([{ name: libraries[i], version: latestRelease }]));
 			}
 
 			if (i === libraries.length - 1) {
