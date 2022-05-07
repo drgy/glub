@@ -3,6 +3,10 @@ on:
     inputs:
       libraries:
         type: string
+  workflow_call:
+    inputs:
+      libraries:
+        type: string
 
 jobs:
   ubuntu-test:

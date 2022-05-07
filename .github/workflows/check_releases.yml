@@ -1,9 +1,25 @@
 on:
   schedule:
-    - cron: '40 9 * * 6'
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
 
 jobs:
   check_releases:
     runs-on: ubuntu-latest
+    outputs:
+      libraries: ${{ steps.check-releases.outputs.libraries }}
     steps:
-      - run: echo "Checking releases..."
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - id: check-releases
+        run: echo "::set-output name=libraries::$(node tests/check_releases.js)"
+  test_releases:
+    runs-on: ubuntu-latest
+    needs: check_releases
+    strategy:
+      matrix: ${{ fromJson(needs.check_releases.outputs.libraries) }}
+    steps:
+      - run: echo "${{ matrix }}"
+      - uses: ./.github/workflows/test_config
+        with:
+          libraries: ${{ matrix }}
