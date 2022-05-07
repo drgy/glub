@@ -16,10 +16,5 @@ jobs:
   test_releases:
     runs-on: ubuntu-latest
     needs: check_releases
-    strategy:
-      matrix: ${{ fromJson(needs.check_releases.outputs.libraries) }}
     steps:
-      - run: echo "${{ matrix }}"
-      - uses: ./.github/workflows/test_config
-        with:
-          libraries: ${{ matrix }}
+      - run: echo "${{ needs.check_releases.outputs.libraries }}"
