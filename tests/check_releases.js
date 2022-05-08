@@ -54,7 +54,7 @@ function printOutput() {
 	if (!done) {
 		setTimeout(printOutput, 100);
 	} else {
-		console.log(JSON.stringify(output));
+		console.log(JSON.stringify({ libraries: output }));
 	}
 }
 
