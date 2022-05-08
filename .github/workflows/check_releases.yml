@@ -13,9 +13,19 @@ jobs:
       - uses: actions/setup-node@v3
       - id: check-releases
         run: echo "::set-output name=libraries::$(node tests/check_releases.js)"
-  test_releases:
+  debug_releases:
     runs-on: ubuntu-latest
     needs: check_releases
     steps:
       - run: echo "${{ needs.check_releases.outputs.libraries }}"
       - run: echo "${{ fromJson(needs.check_releases.outputs.libraries) }}"
+  test_releases:
+    runs-on: ubuntu-latest
+    needs: check_releases
+    strategy:
+      matrix: ${{ fromJson(needs.check_releases.outputs.libraries) }}
+    steps:
+      - run: echo "${{ matrix }}"
+      - uses: ./.github/workflows/test_config
+        with:
+          libraries: ${{ matrix }}
