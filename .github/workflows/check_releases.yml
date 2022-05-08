@@ -21,8 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: ls
-      - run: ls .github/workflows
-      - run: ls .github/workflows/test_config
-      - uses: .github/workflows/test_config
+      - run: ls ./.github/workflows
+      - run: ls ./.github/workflows/test_config
+      - uses: ./.github/workflows/test_config
         with:
           libraries: ${{ matrix }}
