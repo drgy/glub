@@ -14,12 +14,10 @@ jobs:
       - id: check-releases
         run: echo "::set-output name=libraries::$(node tests/check_releases.js)"
   test_releases:
+    uses: drgy/glub/.github/workflows/test_config.yml@main
+      with:
+        libraries: ${{ matrix }}
     runs-on: ubuntu-latest
     needs: check_releases
     strategy:
       matrix: ${{ fromJson(needs.check_releases.outputs.libraries) }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: drgy/glub/.github/workflows/test_config.yml@main
-        with:
-          libraries: ${{ matrix }}
