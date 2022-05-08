@@ -18,6 +18,7 @@ jobs:
     needs: check_releases
     strategy:
       matrix: ${{ fromJson(needs.check_releases.outputs.libraries) }}
-    uses: drgy/glub/.github/workflows/test_config.yml@main
-      with:
-        libraries: ${{ matrix }}
+    steps:
+      - uses: ./.github/workflows/test_config
+        with:
+          libraries: ${{ matrix }}
