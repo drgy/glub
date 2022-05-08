@@ -25,6 +25,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.check_releases.outputs.libraries) }}
     steps:
+      - uses: actions/checkout@v3
       - run: echo ${{ matrix }}
       - uses: ./.github/workflows/test_config
         with:
