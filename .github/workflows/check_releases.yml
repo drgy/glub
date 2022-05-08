@@ -20,9 +20,6 @@ jobs:
       matrix: ${{ fromJson(needs.check_releases.outputs.libraries) }}
     steps:
       - uses: actions/checkout@v3
-      - run: ls
-      - run: ls ./.github/workflows
-      - run: ls ./.github/workflows/test_config
-      - uses: ./.github/workflows/test_config
+      - uses: drgy/glub/.github/workflows/test_config.yml@main
         with:
           libraries: ${{ matrix }}
