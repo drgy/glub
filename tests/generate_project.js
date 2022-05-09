@@ -2,7 +2,7 @@ const https = require('https');
 const fs = require('fs');
 const url = require('url');
 
-const glubApiUrl = 'https://slow-rabbit-71.deno.dev';
+const glubApiUrl = 'https://glub.deno.dev';
 const libraries = JSON.parse(process.argv[2]);
 const reqData = JSON.stringify({
 	name: "glub",
