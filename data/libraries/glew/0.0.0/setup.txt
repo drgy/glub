@@ -3,7 +3,3 @@ if(LIB_GLAD)
 endif()
 
 add_subdirectory(lib/glew)
-
-if(WIN32)
-	set_target_properties(glew PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
-endif()
