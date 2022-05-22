@@ -1,9 +1,8 @@
 #pragma once
 
-#ifdef UNIX
-	#include <SDL2/SDL.h>
-#elif WINDOWS
-	#include <SDL.h>
+#include <SDL.h>
+
+#ifdef WINDOWS
 	#undef main
 #endif
 
