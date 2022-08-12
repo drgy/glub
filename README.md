@@ -1,5 +1,5 @@
 # glub
-Compilation configurator for OpenGL applications. More information on contributing can be found in [wiki](https://github.com/drgy/glub/wiki).
+Compilation configurator for OpenGL applications, available at [glub.drgy.dev](https://glub.drgy.dev). More information on contributing can be found in [wiki](https://github.com/drgy/glub/wiki).
 
 ## Quick start
 
